@@ -1,0 +1,23 @@
+@(message: String)
+
+    @main("Welcome to Play") {
+
+        <div class="container">
+            <div class="demo-headline">
+                <h1 class="demo-logo">
+                    <div class="logo"></div>
+                    Diamond Back
+                    <small>AEP R&D Big Data</small></h1>
+
+                <div class="row">
+                    <!--<div class = "col-md-offset-4 col-md-4 text-center">-->
+                        <!--<a class="btn btn-block " href="@routes.Application.dashboard">Procedure Dashboard</a>-->
+                    <!--</div>-->
+                    <!--<br/><br/><br/>-->
+                    <div class = "col-md-offset-4 col-md-4 text-center">
+                        <a class="btn btn-block btn-primary " href="@routes.Application.etl">Epoc Upload</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }

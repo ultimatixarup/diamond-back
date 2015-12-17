@@ -1,0 +1,34 @@
+machine:
+  environment:
+    PATH: "$PATH:~/$CIRCLE_PROJECT_REPONAME/bin"
+  python:
+    version: 2.7.9
+  java:
+    version: oraclejdk8
+  services:
+    - docker
+dependencies:
+  post:
+    - curl -L -o ~/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x ~/bin/jq
+#    - docker build --rm=false -t yooneo/diamondback-etl:$CIRCLE_SHA1 server/target/docker/stage/. | cat # workaround progress weirdness
+  pre:
+    - wget -q https://dl.bintray.com/sbt/debian/sbt-0.13.9.deb
+    - sudo dpkg -i sbt-0.13.9.deb
+  override:
+    #- sbt compile
+    - sbt docker:stage
+    - docker build --rm=false -t yooneo/diamondback-etl:$CIRCLE_SHA1 target/docker/stage/.
+  cache_directories:
+    - "~/.ivy2"
+    - "~/.sbt"
+test:
+  override:
+    - nosetests
+    - docker run --name diamondback-etl -d -p 80:9000 yooneo/diamondback-etl;
+    - sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80
+deployment:
+  prod:
+    branch: master
+    commands:
+      - ./deploy.sh
