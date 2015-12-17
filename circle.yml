@@ -17,14 +17,14 @@ dependencies:
   override:
     #- sbt compile
     - sbt docker:stage
-    - docker build --rm=false -t yooneo/diamondback-etl:$CIRCLE_SHA1 target/docker/stage/.
+    - docker build --rm=false -t ultimatixarup/diamondback-etl:$CIRCLE_SHA1 target/docker/stage/.
   cache_directories:
     - "~/.ivy2"
     - "~/.sbt"
 test:
   override:
     - nosetests
-    - docker run --name diamondback-etl -d -p 80:9000 yooneo/diamondback-etl;
+    - docker run --name diamondback-etl -d -p 80:9000 ultimatixarup/diamondback-etl;
     - sleep 10
     - curl --retry 10 --retry-delay 5 -v http://localhost:80
 deployment:
