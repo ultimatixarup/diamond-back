@@ -2,6 +2,8 @@
 
 set -e
 set -u
+set -v
+set -x
 set -o pipefail
 
 # more bash-friendly output for jq
