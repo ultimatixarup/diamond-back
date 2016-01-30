@@ -13,7 +13,7 @@ JQ="jq -r -e"
 deploy_image() {
 
     docker login -u $DOCKER_USERNAME -p $DOCKER_PASS -e $DOCKER_EMAIL
-    docker push yooneo/diamondback-etl:$CIRCLE_SHA1
+    docker push ultimatixarup/diamondback-etl:$CIRCLE_SHA1
 
 }
 
@@ -24,7 +24,7 @@ make_task_def() {
     task_template='[
 	{
 	    "name": "etl",
-	    "image": "yooneo/diamondback-etl:%s",
+	    "image": "ultimatixarup/diamondback-etl:%s",
 	    "essential": true,
 	    "memory": 2048,
       "portMappings": [
@@ -37,11 +37,11 @@ make_task_def() {
       "environment": [
                 {
                     "name": "AWS_ACCESS_KEY_ID",
-                    "value": "AKIAJCMYALI46A2DIPRQ"
+                    "value": '.$AWS_ACCESS_KEY_ID.'
                 },
                 {
                     "name": "AWS_SECRET_ACCESS_KEY",
-                    "value": "5VVtmI7vcecuVbw8JsG4uo2O1/9RwwLHrTT01Itz"
+                    "value": '.$AWS_SECRET_ACCESS_KEY.'
                 }
             ]
 	}
